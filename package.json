@@ -1,0 +1,26 @@
+{
+  "name": "sistema_de_votos_de_vanguardia",
+  "version": "1.0.0",
+  "description": "smart-eth",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "react": "^17.0.2",
+    "truffle": "^5.4.25",
+    "web3": "^1.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia.git"
+  },
+  "author": "Kenneth Nunez, Mayra Salazar, Daniel Trimarchi",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia/issues"
+  },
+  "homepage": "https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia#readme"
+}
