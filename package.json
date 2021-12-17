@@ -1,26 +1,32 @@
 {
-  "name": "sistema_de_votos_de_vanguardia",
-  "version": "1.0.0",
-  "description": "smart-eth",
-  "main": "index.js",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "jquery": "^3.6.0",
-    "react": "^17.0.2",
-    "truffle": "^5.4.25",
-    "web3": "^1.6.1"
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
+    "react-scripts": "3.2.0",
+    "web3": "1.2.2"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "mocha"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "author": "Kenneth Nunez, Mayra Salazar, Daniel Trimarchi",
-  "license": "SEE LICENSE IN LICENSE",
-  "bugs": {
-    "url": "https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia/issues"
-  },
-  "homepage": "https://github.com/Kenneth11741149/Sistema_de_votos_de_vanguardia#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
