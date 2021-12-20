@@ -1,18 +1,64 @@
 import React, { Component, useState } from 'react'
-import { Table, Button, Modal, Form, Row } from 'react-bootstrap'
+import { Table, Button, Modal, Form, Row, Alert } from 'react-bootstrap'
 
-export default function VotingTable() {
-    const [show, setShow] = useState(true);
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+export default function VotingTable(props) {
+    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
 
+    const [modalName, setmodalName] = useState('')
+    const [modalDesc, setmodalDesc] = useState('')
+    const [modalVote, setmodalVote] = useState('')
+    const [modalIndex, setmodalIndex] = useState('')
+
+
+
+    const notifyWarning = () => toast("Usted ya voto.");
+    const notifySuccess = () => toast("Muchas gracias por votar!.");
+
+    const changeModalValue = async (e, index) => {
+
+        if (props.revisarSiVoto.includes(index)) {
+
+            notifyWarning()
+        } else {
+            setmodalName(props.VoteList[index].Nombre)
+            setmodalDesc(props.VoteList[index].Description)
+            setmodalVote(props.VoteList[index])
+            setmodalIndex(index)
+            handleShow()
+
+        }
+    }
+
+    const ClickVote = async (e, Selection) => {
+        console.log(modalVote)
+        console.log(props)
+        if (props.Votar)
+            await props.Votar(modalVote, Selection, modalIndex)
+        handleClose()
+        notifySuccess()
+
+    }
+
+
+
+
     return (
+
         <>
+
+            <ToastContainer />
             <Table striped bordered hover variant="dark"
                 padding-left="80px"
             >
+
                 <thead>
                     <tr>
                         <th>#</th>
@@ -21,49 +67,19 @@ export default function VotingTable() {
                         <th>Ver</th>
                     </tr>
                 </thead>
+
+
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Desarrollo de Aplicaciones de Vanguardia VIRTUAL VS PRESENCIAL</td>
-                        <td>Estudiantes de la clase de DAV pueden decidir que tipo de asistencia sera la clase el otro periodo.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Seguridad de la informacion VIRTUAL VS PRESENCIAL</td>
-                        <td>Estudiantes de la clase de Seguridad pueden decidir que tipo de asistencia sera la clase el otro periodo.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pizza con piña vs Pizza sin piña</td>
-                        <td>Decide que comida ordenar el proximo jueves.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pizza con piña vs Pizza sin piña</td>
-                        <td>Decide que comida ordenar el proximo jueves.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pizza con piña vs Pizza sin piña</td>
-                        <td>Decide que comida ordenar el proximo jueves.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pizza con piña vs Pizza sin piña</td>
-                        <td>Decide que comida ordenar el proximo jueves.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Pizza con piña vs Pizza sin piña</td>
-                        <td>Decide que comida ordenar el proximo jueves.</td>
-                        <td><Button variant="primary">Go!</Button></td>
-                    </tr>
+
+                    {props.VoteList ? props.VoteList.map((item, i) => (
+                        <tr>
+
+                            <td>{i + 1}</td>
+                            <td>{item.Nombre}</td>
+                            <td>{item.Description}</td>
+                            <td><Button variant="primary" onClick={e => changeModalValue(e, i)} >Go!</Button></td>
+                        </tr>
+                    )) : null}
                 </tbody>
             </Table>
 
@@ -78,16 +94,16 @@ export default function VotingTable() {
 
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Voting Name</Form.Label>
-                        <Form.Control type="name" placeholder="Desarrollo de Aplicaciones de Vanguardia VIRTUAL VS PRESENCIAL" readOnly />
+                        <Form.Label>Nombre</Form.Label>
+                        <Form.Control type="name" placeholder={modalName} readOnly />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={3} readOnly placeholder="Estudiantes de la clase de DAV pueden decidir que tipo de asistencia sera la clase el otro periodo." />
+                        <Form.Label>Descripcion</Form.Label>
+                        <Form.Control as="textarea" rows={3} readOnly placeholder={modalDesc} />
                     </Form.Group>{' '}
-                    <Button variant="success">Yes</Button>{' '}
-                    <Button variant="danger">No</Button> {' '}
-                    <Button variant="secondary">None</Button>{' '}
+                    <Button variant="success" onClick={e => ClickVote(e, "A")}>Yes</Button>{' '}
+                    <Button variant="danger" onClick={e => ClickVote(e, 'B')}>No</Button> {' '}
+                    <Button variant="secondary" onClick={e => ClickVote(e, 'C')}>None</Button>{' '}
                 </Form>
 
 
@@ -96,13 +112,12 @@ export default function VotingTable() {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
-                    </Button>
+
                 </Modal.Footer>
             </Modal>
-
         </>
+
+
 
     )
 
