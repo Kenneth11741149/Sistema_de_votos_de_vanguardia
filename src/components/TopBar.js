@@ -13,10 +13,7 @@ export default class TopBar extends Component {
                                 <Nav.Link href="#features">About Us</Nav.Link>
                                 <Nav.Link href="#pricing">Privacy Policy</Nav.Link>
                             </Nav>
-                            <Nav>
-                                <Nav.Link href="signin">Sign In</Nav.Link>
-                                <Nav.Link href="signup">Sign Up</Nav.Link>
-                            </Nav>
+                            
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
