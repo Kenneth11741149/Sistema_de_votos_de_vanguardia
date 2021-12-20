@@ -26,7 +26,7 @@ contract Web3Vote {
     completed = false;
     Participant storage participant = participants[msg.sender];
     if(!participant.voted){
-        votes_yes++;
+        votes_yes+=1;
         participant.voted = true;
         completed = true;
     }
@@ -35,7 +35,7 @@ contract Web3Vote {
     completed = false;
     Participant storage participant = participants[msg.sender];
     if(!participant.voted){
-        votes_no++;
+        votes_no+=1;
         participant.voted = true;
         completed = true;
     }
@@ -44,7 +44,7 @@ contract Web3Vote {
     completed = false;
     Participant storage participant = participants[msg.sender];
     if(!participant.voted){
-        votes_yes++;
+        votes_none+=1;
         participant.voted = true;
         completed = true;
     }

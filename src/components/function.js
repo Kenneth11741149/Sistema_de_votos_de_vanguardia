@@ -2,6 +2,11 @@
 
 import db from './firebase.js'
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { ethers } from 'ethers';
+import DragonAbi from '../contracts/DragonVote.json';
+import PineappleAbi from '../contracts/PineapplePizzaVote.json';
+import Web3Abi from '../contracts/Web3Vote.json';
+import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 /*
 async function getAllVotes() {
     var data = await (async () => {
@@ -30,11 +35,15 @@ async function getAllVotes() {
 
 
 async function getAllVotesList() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner()
+    let signerAddress;
     var data = await (async () => {
         let response = [];
-
+        signerAddress = await signer.getAddress();
         const querySnapshot = await getDocs(collection(db, "Votaciones"));
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(async (doc) => {
 
             const selectedItem = {
                 id: doc.id,
@@ -47,35 +56,56 @@ async function getAllVotesList() {
 
 
             };
+            selectedItem.signerAddress = signerAddress;
+            if(selectedItem.Nombre == "Dragon"){
+                const {abi} = DragonAbi; 
+                selectedItem.abi = abi;
+            }else if (selectedItem.Nombre == "Pineapple Pizza"){
+                const {abi} = PineappleAbi; 
+                selectedItem.abi = abi;
+            }else if (selectedItem.Nombre == "Web3"){
+                const {abi} = Web3Abi; 
+                selectedItem.abi = abi;
+            }
+
+            selectedItem.provider = provider;
+            selectedItem.signer = signer;
+            selectedItem.contract = new ethers.Contract(selectedItem.signerAddress, selectedItem.abi, signer)
             response.push(selectedItem);
 
         });
-        return response
-    })()
-    return data
+        return response;
+    })();
+    return data;
 }
 
 
 
-async function updateVote(uid, selection, value) {
+async function updateVote(uid, selection, value,contract) {
     var data = await (async () => {
         let response = [];
 
         const vote = doc(db, "Votaciones", uid);
-
+        console.log(contract)
         if (selection == 'A') {
+            await contract.addVoteYes()
+            let newVal = await contract.getVoteYes()
             await updateDoc(vote, {
-                A: value + 1,
+                A: newVal,
 
             });
         } else if (selection == 'B') {
+            await contract.addVoteNo()
+            let newVal = await contract.getVoteNo()
             await updateDoc(vote, {
-                B: value + 1,
+                B: newVal,
 
             });
         } else {
+            await contract.addVoteNone()
+            let newVal = await contract.getVoteNone()
             await updateDoc(vote, {
-                C: value + 1,
+                C: newVal,
 
             });
         }

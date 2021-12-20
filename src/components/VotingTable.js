@@ -16,6 +16,7 @@ export default function VotingTable(props) {
     const [modalDesc, setmodalDesc] = useState('')
     const [modalVote, setmodalVote] = useState('')
     const [modalIndex, setmodalIndex] = useState('')
+    const [modalContract, setModalContract] = useState('')
 
 
 
@@ -32,16 +33,15 @@ export default function VotingTable(props) {
             setmodalDesc(props.VoteList[index].Description)
             setmodalVote(props.VoteList[index])
             setmodalIndex(index)
+            setModalContract(props.VoteList[index].contract)
             handleShow()
 
         }
     }
 
     const ClickVote = async (e, Selection) => {
-        console.log(modalVote)
-        console.log(props)
         if (props.Votar)
-            await props.Votar(modalVote, Selection, modalIndex)
+            await props.Votar(modalVote, Selection, modalIndex, modalContract)
         handleClose()
         notifySuccess()
 
@@ -101,9 +101,9 @@ export default function VotingTable(props) {
                         <Form.Label>Descripcion</Form.Label>
                         <Form.Control as="textarea" rows={3} readOnly placeholder={modalDesc} />
                     </Form.Group>{' '}
-                    <Button variant="success" onClick={e => ClickVote(e, "A")}>Yes</Button>{' '}
-                    <Button variant="danger" onClick={e => ClickVote(e, 'B')}>No</Button> {' '}
-                    <Button variant="secondary" onClick={e => ClickVote(e, 'C')}>None</Button>{' '}
+                    <Button variant="success" onClick={e => ClickVote(e, "A",modalContract)}>Yes</Button>{' '}
+                    <Button variant="danger" onClick={e => ClickVote(e, 'B', modalContract)}>No</Button> {' '}
+                    <Button variant="secondary" onClick={e => ClickVote(e, 'C',modalContract)}>None</Button>{' '}
                 </Form>
 
 

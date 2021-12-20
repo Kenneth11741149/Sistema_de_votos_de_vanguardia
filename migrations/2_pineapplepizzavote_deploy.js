@@ -1,5 +1,5 @@
 
-var Vote = artifacts.require("./PinneapplePizzaVote.sol");
+var Vote = artifacts.require("./PineapplePizzaVote.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Vote);

@@ -26,7 +26,7 @@ export default function LandingPage() {
 
     }, [])
 
-    const Votar = async (Vote, selection, index) => {
+    const Votar = async (Vote, selection, index, contract) => {
 
         const dat = this;
 
@@ -41,7 +41,7 @@ export default function LandingPage() {
 
         revisarSiVoto.push(index)
 
-        functions.updateVote(Vote.id, selection, value).then(function (result) {
+        functions.updateVote(Vote.id, selection, value,contract).then(function (result) {
             console.log("Voto EXITOSO")
 
         })
