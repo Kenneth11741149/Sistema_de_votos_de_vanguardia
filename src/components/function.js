@@ -86,26 +86,25 @@ async function updateVote(uid, selection, value,contract) {
         let response = [];
 
         const vote = doc(db, "Votaciones", uid);
-        console.log(contract)
         if (selection == 'A') {
             await contract.addVoteYes()
             let newVal = await contract.getVoteYes()
             await updateDoc(vote, {
-                A: newVal,
+                A: value + 1,
 
             });
         } else if (selection == 'B') {
             await contract.addVoteNo()
             let newVal = await contract.getVoteNo()
             await updateDoc(vote, {
-                B: newVal,
+                B: value + 1,
 
             });
         } else {
             await contract.addVoteNone()
             let newVal = await contract.getVoteNone()
             await updateDoc(vote, {
-                C: newVal,
+                C: value + 1,
 
             });
         }
